@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Assessments</string>
+    <string name="generate_schedule">Generate Schedule</string>
+</resources>
