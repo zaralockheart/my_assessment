@@ -6,7 +6,6 @@ import my.com.assessments.model.EngineerX
 
 class EngineerRepository {
     suspend fun getEngineers(): Engineer {
-        delay(5000)
         return Engineer(
             arrayListOf(
                 EngineerX(0, "Bogdan"),

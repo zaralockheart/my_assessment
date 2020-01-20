@@ -15,7 +15,7 @@ object Injectors {
     }
 
     fun provideScheduleViewModelFactory(
-        engineers: List<EngineerX?>?
+        engineers: List<EngineerX>?
     ): ScheduleViewModelFactory {
         return ScheduleViewModelFactory(engineers)
     }

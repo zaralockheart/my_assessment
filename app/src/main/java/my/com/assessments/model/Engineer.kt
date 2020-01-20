@@ -10,5 +10,5 @@ import kotlinx.serialization.SerialName
 @Parcelize
 data class Engineer(
     @SerialName("engineers")
-    val engineers: List<EngineerX?>?
+    val engineers: List<EngineerX>?
 ) : Parcelable
