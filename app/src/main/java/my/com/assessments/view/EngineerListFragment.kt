@@ -12,6 +12,7 @@ import androidx.navigation.findNavController
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import my.com.assessments.R
 import my.com.assessments.adapter.EngineerListAdapter
 import my.com.assessments.databinding.EngineerListFragmentBinding
@@ -46,7 +47,7 @@ class EngineerListFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        GlobalScope.launch(Dispatchers.IO) {
+        runBlocking {
             try {
                 binding.isLoading = true
                 viewModel.getEngineer()

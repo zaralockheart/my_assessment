@@ -1,17 +1,17 @@
 package my.com.assessments.utilities
 
 import my.com.assessments.model.EngineerX
-import my.com.assessments.repository.EngineerRepository
+import my.com.assessments.repository.EngineerService
 import my.com.assessments.viewmodel.EngineerListViewModelFactory
 import my.com.assessments.viewmodel.ScheduleViewModelFactory
 
 object Injectors {
 
-    private fun getGardenPlantingRepository(): EngineerRepository = EngineerRepository()
+    private fun engineerRepository(): EngineerService = EngineerService()
 
     fun provideEngineerListViewModelFactory(
     ): EngineerListViewModelFactory {
-        return EngineerListViewModelFactory(getGardenPlantingRepository())
+        return EngineerListViewModelFactory(engineerRepository())
     }
 
     fun provideScheduleViewModelFactory(

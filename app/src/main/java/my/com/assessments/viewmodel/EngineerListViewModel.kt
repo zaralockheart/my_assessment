@@ -6,10 +6,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import my.com.assessments.model.Engineer
-import my.com.assessments.repository.EngineerRepository
+import my.com.assessments.repository.EngineerService
 
 class EngineerListViewModel internal constructor(
-    private val engineerRepository: EngineerRepository
+    private val engineerRepository: EngineerService
 ) : ViewModel() {
     val engineer: MutableLiveData<Engineer> = MutableLiveData()
 
@@ -17,9 +17,7 @@ class EngineerListViewModel internal constructor(
         // TODO(Yusuf): Change this to data from outside
         if (engineer.value == null) {
             val engineers = engineerRepository.getEngineers()
-            GlobalScope.launch(Dispatchers.Main) {
-                engineer.value = engineers
-            }
+            engineer.value = engineers
         }
     }
 }

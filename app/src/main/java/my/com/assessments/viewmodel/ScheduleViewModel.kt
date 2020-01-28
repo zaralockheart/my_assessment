@@ -24,36 +24,51 @@ class ScheduleViewModel internal constructor(private val engineers: List<Enginee
         // If startDate is null, generate one from today.
         val start = startDate ?: Date()
 
-        // We have two schedules with 10 engineers. That's basically means that the number of days should be
+        // We have two shifts with X number of engineers. That's basically means that the number of days should be
         // half of our engineer size.
         val totalDays = engineers.size / NUMBER_OF_SHIFT
         val dates = start.getWorkingDays(totalDays)
 
         val schedules = mutableListOf<Schedule>()
 
+        // This start at O(X)
         dates.map {
             val schedule = Schedule()
             schedule.date = it
             val invalidEngineers = mutableListOf<EngineerX>()
 
-            if (lastEngineers?.isNullOrEmpty() == true) {
-                invalidEngineers.addAll(lastEngineers)
-            }
+            // This should be O(ln(X - 2)) at first loop
+            removeLastEngineer(schedules, invalidEngineers, lastEngineers)
 
+            // This should be O(ln(X - Y)) as Y is schedules length
             removeScheduledEngineer(schedules, invalidEngineers)
 
+            // This should be O(ln(X - Y) + ln(X - Z)) as Z is invalid engineers
             val validEngineers = engineers.filter { eng -> !invalidEngineers.contains(eng) }
 
-            val selectedEngieers = getRandomEngineer(validEngineers, NUMBER_OF_SHIFT)
+            // This should be O(ln(X - Y + SHIFT)) since we always loop SHIFT times.
+            val selectedEngineers = getRandomEngineer(validEngineers, NUMBER_OF_SHIFT)
 
-            schedule.engineers.addAll(selectedEngieers)
+            schedule.engineers.addAll(selectedEngineers)
 
             schedules.add(schedule)
-
         }
 
         return schedules
 
+    }
+
+
+    @VisibleForTesting
+    fun removeLastEngineer(
+        schedules: MutableList<Schedule>,
+        invalidEngineers: MutableList<EngineerX>,
+        lastEngineers: List<EngineerX>?
+    ) {
+        if (schedules.isEmpty() && !lastEngineers.isNullOrEmpty()) {
+            invalidEngineers.addAll(lastEngineers)
+            assert(invalidEngineers.size == 2)
+        }
     }
 
     @VisibleForTesting
@@ -62,23 +77,19 @@ class ScheduleViewModel internal constructor(private val engineers: List<Enginee
         invalidEngineers: MutableList<EngineerX>
     ) = schedules.forEach { sch -> invalidEngineers.addAll(sch.engineers) }
 
-    // TODO: Do this better.
+
     @VisibleForTesting
-    fun getRandomEngineer(engineers: List<EngineerX>, engineerCount: Int): List<EngineerX> {
+    fun getRandomEngineer(engineers: List<EngineerX>, shiftCount: Int): List<EngineerX> {
         if (engineers.isEmpty()) {
             return emptyList()
         }
         val output = mutableListOf<EngineerX>()
-        for (i in 0 until engineerCount) {
+        for (i in 0 until shiftCount) {
             val availableEngineers = ArrayList(engineers)
             if (output.isNotEmpty()) {
                 availableEngineers.removeAll(output)
             }
-            try {
-                output.add(availableEngineers[Random().nextInt(availableEngineers.size - 1)])
-            } catch (_: Exception) {
-                output.add(availableEngineers[0])
-            }
+            output.add(availableEngineers[Random().nextInt(availableEngineers.size)])
         }
         return output
     }

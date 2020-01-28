@@ -1,6 +1,7 @@
 package my.com.assessments.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,6 +32,12 @@ class ScheduleFragment : Fragment() {
         val secondWeekList =
             viewModel.getSchedule(firstWeekList!!.last().date, firstWeekList.last().engineers)
         val twoSchedulesMerged = firstWeekList.union(secondWeekList!!.toMutableList())
+        twoSchedulesMerged.map {
+            Log.d("TAG", it.date.toString())
+            it.engineers.map {eng ->
+                Log.d("ENGINEERS", eng.name!!)
+            }
+        }
 
         return inflater.inflate(R.layout.schedule_fragment, container, false)
     }
