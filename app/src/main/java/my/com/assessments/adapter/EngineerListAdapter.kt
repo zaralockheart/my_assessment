@@ -15,12 +15,12 @@ class EngineerListAdapter :
         EngineerDiffCallback()
     ) {
 
-    class ViewHolder(
+    inner class ViewHolder(
         private val binding: EngineerItemBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
 
-        fun bind(engineer: EngineerX) {
+        fun bind(engineer: EngineerX?) {
             with(binding) {
                 this.engineer = engineer
                 executePendingBindings()
@@ -36,9 +36,16 @@ class EngineerListAdapter :
     )
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        if (position == 0) {
+            holder.bind(null)
+        } else {
+            holder.bind(getItem(position - 1))
+        }
     }
 
+    override fun getItemCount(): Int {
+        return super.getItemCount() + 1
+    }
 }
 
 private class EngineerDiffCallback : DiffUtil.ItemCallback<EngineerX>() {

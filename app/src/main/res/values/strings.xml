@@ -3,4 +3,6 @@
     <string name="generate_schedule">Generate Schedule</string>
     <string name="please_check">Please check if this url still available at https://www.mocky.io/</string>
     <string name="error_fetching">Error Fetching API</string>
+    <string name="engineer_id">Engineer ID</string>
+    <string name="engineer_name">Engineer Name</string>
 </resources>

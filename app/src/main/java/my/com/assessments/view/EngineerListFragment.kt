@@ -7,9 +7,10 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
 import androidx.navigation.findNavController
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.*
 import my.com.assessments.R
 import my.com.assessments.adapter.EngineerListAdapter
 import my.com.assessments.databinding.EngineerListFragmentBinding
@@ -45,18 +46,20 @@ class EngineerListFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        try {
-            binding.isLoading = true
-            runBlocking { viewModel.getEngineer() }
-        } catch (e: HttpException) {
-            AlertDialog.Builder(context!!)
-                .setTitle(getString(R.string.error_fetching))
-                .setMessage(getString(R.string.please_check))
-                .setPositiveButton(android.R.string.yes) { dialog, _ -> dialog.cancel() }
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .show()
-        } finally {
-            binding.isLoading = false
+        lifecycleScope.launch {
+            try {
+                binding.isLoading = true
+                viewModel.getEngineer()
+            } catch (e: HttpException) {
+                AlertDialog.Builder(context!!)
+                    .setTitle(getString(R.string.error_fetching))
+                    .setMessage(getString(R.string.please_check))
+                    .setPositiveButton(android.R.string.yes) { dialog, _ -> dialog.cancel() }
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show()
+            } finally {
+                binding.isLoading = false
+            }
         }
         super.onViewCreated(view, savedInstanceState)
     }
