@@ -2,6 +2,7 @@ package my.com.assessments
 
 import my.com.assessments.model.EngineerX
 import my.com.assessments.model.Schedule
+import my.com.assessments.utilities.getWorkingDays
 import my.com.assessments.viewmodel.ScheduleViewModel
 import org.junit.Test
 
@@ -90,5 +91,55 @@ class ScheduleUnitTest {
 
         viewModel.removeLastEngineer(currentSchedule, invalidEngineers, lastEngineer)
         assertEquals(0, invalidEngineers.size)
+    }
+
+    @Test
+    fun `Day count is based on engineer and shift count`() {
+
+        val viewModel = ScheduleViewModel(totalEngineers)
+
+        val days = viewModel.getDayCount()
+        assertEquals(2, days)
+    }
+
+    @Test
+    fun `If start date is null, start date is today`() {
+
+        val viewModel = ScheduleViewModel(totalEngineers)
+
+        val date = viewModel.getTodayIfStartDateNull(null)
+        assertEquals(Date(), date)
+    }
+
+    @Test
+    fun `If start date is not null, start date is the given value`() {
+
+        val viewModel = ScheduleViewModel(totalEngineers)
+
+        val inputDate = Calendar.getInstance()
+        inputDate.set(Calendar.YEAR, 2018)
+        inputDate.set(Calendar.MONTH, 10)
+        inputDate.set(Calendar.DAY_OF_MONTH, 20)
+        val date = viewModel.getTodayIfStartDateNull(inputDate.time)
+        val outputDate = Calendar.getInstance()
+        outputDate.time = date
+        assertEquals(10, outputDate.get(Calendar.MONTH))
+        assertEquals(20, outputDate.get(Calendar.DAY_OF_MONTH))
+    }
+
+    @Test
+    fun `Working days should generated based on interval`() {
+
+        val inputDate = Calendar.getInstance()
+        inputDate.set(Calendar.YEAR, 2018)
+        inputDate.set(Calendar.MONTH, 10)
+        inputDate.set(Calendar.DAY_OF_MONTH, 20)
+
+        val dates = inputDate.time.getWorkingDays(10)
+
+        val endDate = Calendar.getInstance()
+        endDate.time = inputDate.time
+        endDate.add(Calendar.DAY_OF_MONTH, 10)
+        assertEquals(dates.last(), endDate.time)
     }
 }

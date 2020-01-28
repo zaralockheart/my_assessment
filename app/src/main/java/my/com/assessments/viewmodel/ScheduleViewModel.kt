@@ -22,11 +22,11 @@ class ScheduleViewModel internal constructor(private val engineers: List<Enginee
         }
 
         // If startDate is null, generate one from today.
-        val start = startDate ?: Date()
+        val start = getTodayIfStartDateNull(startDate)
 
         // We have two shifts with X number of engineers. That's basically means that the number of days should be
         // half of our engineer size.
-        val totalDays = engineers.size / NUMBER_OF_SHIFT
+        val totalDays = getDayCount()
         val dates = start.getWorkingDays(totalDays)
 
         val schedules = mutableListOf<Schedule>()
@@ -57,6 +57,12 @@ class ScheduleViewModel internal constructor(private val engineers: List<Enginee
         return schedules
 
     }
+
+    @VisibleForTesting
+    fun getDayCount(): Int = engineers!!.size / NUMBER_OF_SHIFT
+
+    @VisibleForTesting
+    fun getTodayIfStartDateNull(date: Date?): Date = date ?: Date()
 
 
     @VisibleForTesting
