@@ -29,7 +29,7 @@ class EngineerTest {
     private val observer: Observer<Engineer> = mock()
 
     @Test
-    fun testFetchEgnineers() {
+    fun testFetchEngineers() {
 
         MockitoAnnotations.initMocks(this)
         val engineerResponse = Engineer(
