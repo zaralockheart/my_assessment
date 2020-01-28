@@ -61,6 +61,9 @@ add this json object and click `Generate my HTTP Response`
 3. Retrofit
 4. Custom injection. I don't think I should use [Dagger](https://dagger.dev/android.html) / [Koin](https://insert-koin.io/) since I don't have the luxury.
 
+## Screenshot
+![first_screen](screenshot/first_screen.png)
+
 ## References:
 
 - [sunflower](https://github.com/android/sunflower)
