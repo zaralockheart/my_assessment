@@ -13,12 +13,12 @@ class ScheduleViewModel internal constructor(private val engineers: List<Enginee
     ViewModel() {
 
     // Making sure that our subsequent list that is from existing should not take the last value.
-    fun getSchedule(startDate: Date?, lastEngineers: List<EngineerX>?): List<Schedule>? {
+    fun getSchedule(startDate: Date?, lastEngineers: List<EngineerX>?): List<Schedule> {
 
         // Ignore if engineers is empty or null to reduce memory usage.
         // Why bother to do calculation if it's empty or null anyway.
         if (engineers?.isNullOrEmpty()!!) {
-            return null
+            return mutableListOf()
         }
 
         // If startDate is null, generate one from today.

@@ -63,6 +63,7 @@ add this json object and click `Generate my HTTP Response`
 
 ## Screenshot
 ![first_screen](screenshot/first_screen.png)
+![second_screen](screenshot/second_screen.png)
 
 ## References:
 

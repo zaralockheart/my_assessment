@@ -5,4 +5,7 @@
     <string name="error_fetching">Error Fetching API</string>
     <string name="engineer_id">Engineer ID</string>
     <string name="engineer_name">Engineer Name</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="null_">null</string>
 </resources>
