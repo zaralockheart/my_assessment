@@ -139,7 +139,7 @@ class ScheduleUnitTest {
 
         val endDate = Calendar.getInstance()
         endDate.time = inputDate.time
-        endDate.add(Calendar.DAY_OF_MONTH, 10)
+        endDate.add(Calendar.DAY_OF_MONTH, 9)
         assertEquals(dates.last(), endDate.time)
     }
 }
